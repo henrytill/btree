@@ -3,6 +3,13 @@ project(btree C)
 
 set(CMAKE_C_STANDARD 99)
 
+option(BTREE_COVERAGE "Compile with coverage support" ON)
+
+if(BTREE_COVERAGE MATCHES "ON")
+  SET(GCC_COVERAGE_COMPILE_FLAGS "-fprofile-arcs -ftest-coverage")
+  SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${GCC_COVERAGE_COMPILE_FLAGS}")
+endif()
+
 # library
 
 set(btree_sources src/btree.c)
