@@ -56,19 +56,19 @@ main(int argc, char *argv[])
 	}
 
 	if ((txn = btree_txn_begin(tree, false)) == NULL) {
-		exit(1);
+		goto fail;
 	}
 
 	if (btree_txn_put(tree, txn, &key, &expected, 0) == BT_FAIL) {
-		exit(1);
+		goto fail;
 	}
 
 	if (btree_txn_get(tree, txn, &key, &actual) == BT_FAIL) {
-		exit(1);
+		goto fail;
 	}
 
 	if (btree_txn_commit(txn) == BT_FAIL) {
-		exit(1);
+		goto fail;
 	}
 
 	assert(expected.size == actual.size);
@@ -79,19 +79,22 @@ main(int argc, char *argv[])
 	assert(expected.size != actual.size);
 
 	if ((txn = btree_txn_begin(tree, true)) == NULL) {
-		exit(1);
+		goto fail;
 	}
 
 	if (btree_txn_get(tree, txn, &key, &actual) == BT_FAIL) {
-		exit(1);
+		goto fail;
 	}
-
-	btree_txn_abort(txn);
 
 	assert(expected.size == actual.size);
 	assert(strcmp(expected.data, actual.data) == 0);
 
+	btree_txn_abort(txn);
 	btree_close(tree);
-
 	return 0;
+
+fail:
+	btree_txn_abort(txn);
+	btree_close(tree);
+	exit(1);
 }
