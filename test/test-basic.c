@@ -11,8 +11,8 @@ main(int argc, char *argv[])
 {
 	char              path[] = TEMPLATE;
 	int               fd;
-	struct btree *    tree;
-	struct btree_txn *txn;
+	struct btree *    tree = NULL;
+	struct btree_txn *txn = NULL;
 	struct btval      key;
 	struct btval      expected;
 	struct btval      actual;
@@ -30,7 +30,7 @@ main(int argc, char *argv[])
 	DPRINTF("db path: %s", path);
 
 	if ((tree = btree_open_fd(fd, 0)) == NULL) {
-		exit(1);
+		goto fail;
 	}
 
 	if ((txn = btree_txn_begin(tree, false)) == NULL) {
