@@ -21,11 +21,11 @@ target_include_directories(btree PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE
 
 find_package(OpenSSL REQUIRED)
 
-add_executable(btree-test-basic test/test-basic.c)
+add_executable(btree-test-basic test/test-basic.c test/test.h)
 target_include_directories(btree-test-basic PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
 target_link_libraries(btree-test-basic btree OpenSSL::SSL)
 
-add_executable(btree-test-txn-abort test/test-txn-abort.c)
+add_executable(btree-test-txn-abort test/test-txn-abort.c test/test.h)
 target_include_directories(btree-test-txn-abort PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
 target_link_libraries(btree-test-txn-abort btree OpenSSL::SSL)
 

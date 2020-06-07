@@ -3,30 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifndef NDEBUG
-#include <stdio.h>
-#endif
-
 #include "btree.h"
-
-#ifndef NDEBUG
-#define DEBUG
-#endif
-
-#ifdef DEBUG
-#define DPRINTF(...)                                                           \
-	do {                                                                   \
-		fprintf(stderr, "%s:%d: ", __func__, __LINE__);                \
-		fprintf(stderr, __VA_ARGS__);                                  \
-		fprintf(stderr, "\n");                                         \
-	} while (0)
-#else
-#define DPRINTF(...)
-#endif
-
-#define TEMPLATE "/tmp/treeXXXXXX"
-#define KEY      "hello"
-#define VALUE    "world"
+#include "test.h"
 
 int
 main(int argc, char *argv[])
@@ -39,11 +17,11 @@ main(int argc, char *argv[])
 	struct btval      expected;
 	struct btval      actual;
 
-	key.size = strlen(KEY);
-	key.data = KEY;
+	key.size = strlen(KEY_HELLO);
+	key.data = KEY_HELLO;
 
-	expected.size = strlen(VALUE);
-	expected.data = VALUE;
+	expected.size = strlen(VAL_WORLD);
+	expected.data = VAL_WORLD;
 
 	if ((fd = mkstemp(path)) == -1) {
 		exit(1);
