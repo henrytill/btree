@@ -25,10 +25,15 @@ add_executable(btree-test-basic test/test-basic.c test/test.h)
 target_include_directories(btree-test-basic PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
 target_link_libraries(btree-test-basic btree OpenSSL::SSL)
 
+add_executable(btree-test-get-path test/test-get-path.c test/test.h)
+target_include_directories(btree-test-get-path PUBLIC $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>)
+target_link_libraries(btree-test-get-path btree OpenSSL::SSL)
+
 add_executable(btree-test-txn-abort test/test-txn-abort.c test/test.h)
 target_include_directories(btree-test-txn-abort PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
 target_link_libraries(btree-test-txn-abort btree OpenSSL::SSL)
 
 enable_testing()
 add_test(test_basic, btree-test-basic)
+add_test(test_get_path, btree-test-get-path)
 add_test(test_txn_abort, btree-test-txn-abort)
