@@ -33,7 +33,10 @@ add_executable(btree-test-txn-abort test/test-txn-abort.c test/test.h)
 target_include_directories(btree-test-txn-abort PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
 target_link_libraries(btree-test-txn-abort btree OpenSSL::SSL)
 
+add_executable(misc-flexible-array-member test/misc-flexible-array-member.c test/misc-flexible-array-member.h)
+
 enable_testing()
 add_test(test_basic, btree-test-basic)
 add_test(test_get_path, btree-test-get-path)
 add_test(test_txn_abort, btree-test-txn-abort)
+add_test(misc_flexible_array_member, misc-flexible-array-member)
