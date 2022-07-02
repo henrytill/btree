@@ -44,8 +44,8 @@ main(int argc, char *argv[])
 
 	/*
 	 * Adding the following stanza will trip an assertion in btree_txn_abort
-	 * which stipulates that reference count for a given page in the dirty
-	 * queue is 0, because a successful btree_txn_get will bump the
+	 * which stipulates that the reference count for a given page in the
+	 * dirty queue is 0, because a successful btree_txn_get will bump the
 	 * reference count for a given page.
 	 */
 
