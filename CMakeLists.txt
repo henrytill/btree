@@ -21,22 +21,22 @@ target_include_directories(btree PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE
 
 find_package(OpenSSL REQUIRED)
 
-add_executable(btree-test-basic test/test-basic.c test/test.h)
-target_include_directories(btree-test-basic PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
-target_link_libraries(btree-test-basic btree OpenSSL::SSL)
+add_executable(basic test/basic.c)
+target_include_directories(basic PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
+target_link_libraries(basic btree OpenSSL::SSL)
 
-add_executable(btree-test-get-path test/test-get-path.c test/test.h)
-target_include_directories(btree-test-get-path PUBLIC $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>)
-target_link_libraries(btree-test-get-path btree OpenSSL::SSL)
+add_executable(get_path test/get_path.c)
+target_include_directories(get_path PUBLIC $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>)
+target_link_libraries(get_path btree OpenSSL::SSL)
 
-add_executable(btree-test-txn-abort test/test-txn-abort.c test/test.h)
-target_include_directories(btree-test-txn-abort PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
-target_link_libraries(btree-test-txn-abort btree OpenSSL::SSL)
+add_executable(txn_abort test/txn_abort.c)
+target_include_directories(txn_abort PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
+target_link_libraries(txn_abort btree OpenSSL::SSL)
 
-add_executable(misc-flexible-array-member test/misc-flexible-array-member.c test/misc-flexible-array-member.h)
+add_executable(flex_mem test/flex_mem.c)
 
 enable_testing()
-add_test(test_basic, btree-test-basic)
-add_test(test_get_path, btree-test-get-path)
-add_test(test_txn_abort, btree-test-txn-abort)
-add_test(misc_flexible_array_member, misc-flexible-array-member)
+add_test(basic, basic)
+add_test(get_path, get_path)
+add_test(txn_abort, txn_abort)
+add_test(flex_mem, flex_mem)

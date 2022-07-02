@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "misc-flexible-array-member.h"
+#include "flex_mem.h"
 
 /* Implementation */
 
