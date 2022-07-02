@@ -21,6 +21,11 @@ const unsigned int goodbye_len = 16;
 
 /* clang-format on */
 
+enum {
+	SUCCESS = 0,
+	FAILURE = 1,
+};
+
 struct flex_mem {
 	unsigned int  size;
 	unsigned char data[];
