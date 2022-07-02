@@ -9,8 +9,8 @@
 
 int
 flex_mem_new(const unsigned char *array,
-             unsigned int         array_size,
-             struct flex_mem **   p)
+             unsigned int array_size,
+             struct flex_mem **p)
 {
 	*p = malloc(sizeof(struct flex_mem) +
 	            sizeof(unsigned char) * array_size);
@@ -27,8 +27,8 @@ flex_mem_new(const unsigned char *array,
 
 int
 flex_mem_set(const unsigned char *array,
-             unsigned int         array_size,
-             struct flex_mem **   p)
+             unsigned int array_size,
+             struct flex_mem **p)
 {
 	struct flex_mem *p_resized = NULL;
 
@@ -65,10 +65,10 @@ flex_mem_info(void)
 static int
 flex_mem_test(void)
 {
-	struct flex_mem * p = NULL;
+	struct flex_mem *p = NULL;
 	const char *const expected_hello = "hello, world!";
 	const char *const expected_goodbye = "goodbye, world!";
-	int               ret = FAILURE;
+	int ret = FAILURE;
 
 	if (flex_mem_new(hello, hello_len, &p) != 0) {
 		goto cleanup;

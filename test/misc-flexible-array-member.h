@@ -27,27 +27,27 @@ enum {
 };
 
 struct flex_mem {
-	unsigned int  size;
+	unsigned int size;
 	unsigned char data[];
 };
 
 int
 flex_mem_new(const unsigned char *array,
-             unsigned int         array_size,
-             struct flex_mem **   p);
+             unsigned int array_size,
+             struct flex_mem **p);
 
 int
 flex_mem_set(const unsigned char *array,
-             unsigned int         array_size,
-             struct flex_mem **   p);
+             unsigned int array_size,
+             struct flex_mem **p);
 
 struct flex_mem_alt {
-	unsigned int  size;
+	unsigned int size;
 	unsigned char data[1];
 };
 
 struct flex_mem_old {
-	unsigned int  size;
+	unsigned int size;
 	unsigned char data[0];
 };
 

@@ -9,13 +9,13 @@
 int
 main(int argc, char *argv[])
 {
-	char              path[] = TEMPLATE;
-	int               fd;
-	struct btree *    tree = NULL;
+	char path[] = TEMPLATE;
+	int fd;
+	struct btree *tree = NULL;
 	struct btree_txn *txn = NULL;
-	struct btval      key;
-	struct btval      expected;
-	struct btval      actual;
+	struct btval key;
+	struct btval expected;
+	struct btval actual;
 
 	key.size = strlen(KEY_HELLO);
 	key.data = KEY_HELLO;

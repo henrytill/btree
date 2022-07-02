@@ -11,8 +11,8 @@
 int
 main(int argc, char *argv[])
 {
-	char          path[] = TEMPLATE;
-	const char *  actual_path = NULL;
+	char path[] = TEMPLATE;
+	const char *actual_path = NULL;
 	struct btree *tree = NULL;
 
 	if (mkstemp(path) == -1) {
