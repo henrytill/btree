@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "flex_mem.h"
+#include "test.h"
 
 /* Implementation */
 
@@ -71,23 +72,27 @@ flex_mem_test(void)
 	int ret = FAILURE;
 
 	if (flex_mem_new(hello, hello_len, &p) != 0) {
-		goto cleanup;
+		ret = FAILURE;
+		goto out;
 	}
 
 	if (memcmp(expected_hello, p->data, p->size) != 0) {
-		goto cleanup;
+		ret = FAILURE;
+		goto out;
 	}
 
 	if (flex_mem_set(goodbye, goodbye_len, &p) != 0) {
-		goto cleanup;
+		ret = FAILURE;
+		goto out;
 	}
 
 	if (memcmp(expected_goodbye, p->data, p->size) != 0) {
-		goto cleanup;
+		ret = FAILURE;
+		goto out;
 	}
 
 	ret = SUCCESS;
-cleanup:
+out:
 	if (p != NULL) {
 		free(p);
 	}

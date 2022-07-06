@@ -1,78 +1,116 @@
 #include <assert.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "btree.h"
 #include "test.h"
 
+#define TEMPLATE "/tmp/treeXXXXXX"
+
 int
 main(int argc, char *argv[])
 {
-	char path[] = TEMPLATE;
-	int fd;
+	char *key_hello = "hello";
+	char *val_world = "world";
 	struct btree *tree = NULL;
 	struct btree_txn *txn = NULL;
-	struct btval key;
-	struct btval expected;
-	struct btval actual;
+	struct btval key = {
+	    .size = strlen(key_hello),
+	    .data = key_hello,
+	};
+	struct btval expected = {
+	    .size = strlen(val_world),
+	    .data = val_world,
+	};
+	struct btval actual = {
+	    .size = 0,
+	    .data = NULL,
+	};
+	char path[] = TEMPLATE;
+	int ret = FAILURE;
+	int err = BT_FAIL;
 
-	key.size = strlen(KEY_HELLO);
-	key.data = KEY_HELLO;
-
-	expected.size = strlen(VAL_WORLD);
-	expected.data = VAL_WORLD;
-
-	if ((fd = mkstemp(path)) == -1) {
-		exit(1);
+	const int fd = mkstemp(path);
+	if (fd == -1) {
+		return FAILURE;
 	}
 
-	DPRINTF("db path: %s", path);
+	fprintf(stderr, "db path: %s", path);
 
-	if ((tree = btree_open_fd(fd, 0)) == NULL) {
-		goto fail;
+	tree = btree_open_fd(fd, 0);
+	if (tree == NULL) {
+		ret = FAILURE;
+		goto out;
 	}
 
-	if ((txn = btree_txn_begin(tree, false)) == NULL) {
-		goto fail;
+	txn = btree_txn_begin(tree, false);
+	if (txn == NULL) {
+		ret = FAILURE;
+		goto out;
 	}
 
-	if (btree_txn_put(tree, txn, &key, &expected, 0) == BT_FAIL) {
-		goto fail;
+	err = btree_txn_put(tree, txn, &key, &expected, 0);
+	if (err == BT_FAIL) {
+		ret = FAILURE;
+		goto out;
 	}
 
-	if (btree_txn_get(tree, txn, &key, &actual) == BT_FAIL) {
-		goto fail;
+	err = btree_txn_get(tree, txn, &key, &actual);
+	if (err == BT_FAIL) {
+		ret = FAILURE;
+		goto out;
 	}
 
-	if (btree_txn_commit(txn) == BT_FAIL) {
-		goto fail;
+	err = btree_txn_commit(txn);
+	if (err == BT_FAIL) {
+		ret = FAILURE;
+		goto out;
 	}
 
-	assert(expected.size == actual.size);
-	assert(strcmp(expected.data, actual.data) == 0);
+	if (expected.size != actual.size) {
+		ret = FAILURE;
+		goto out;
+	}
+
+	if (strcmp(expected.data, actual.data) != 0) {
+		ret = FAILURE;
+		goto out;
+	}
 
 	btval_reset(&actual);
 
-	assert(expected.size != actual.size);
-
-	if ((txn = btree_txn_begin(tree, true)) == NULL) {
-		goto fail;
+	if (expected.size == actual.size) {
+		ret = FAILURE;
+		goto out;
 	}
 
-	if (btree_txn_get(tree, txn, &key, &actual) == BT_FAIL) {
-		goto fail;
+	txn = btree_txn_begin(tree, true);
+	if (txn == NULL) {
+		ret = FAILURE;
+		goto out;
 	}
 
-	assert(expected.size == actual.size);
-	assert(strcmp(expected.data, actual.data) == 0);
+	err = btree_txn_get(tree, txn, &key, &actual);
+	if (err == BT_FAIL) {
+		ret = FAILURE;
+		goto out;
+	}
 
+	if (expected.size != actual.size) {
+		ret = FAILURE;
+		goto out;
+	}
+
+	if (strcmp(expected.data, actual.data) != 0) {
+		ret = FAILURE;
+		goto out;
+	}
+
+	ret = SUCCESS;
+out:
 	btree_txn_abort(txn);
 	btree_close(tree);
-	return 0;
-
-fail:
-	btree_txn_abort(txn);
-	btree_close(tree);
-	exit(1);
+	return ret;
 }

@@ -1,12 +1,17 @@
 #include <assert.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "btree.h"
 #include "test.h"
 
-#define FLAGS 0
-#define MODE  0
+#define TEMPLATE "/tmp/treeXXXXXX"
+
+enum {
+	FLAGS = 0,
+	MODE = 0,
+};
 
 int
 main(int argc, char *argv[])
@@ -14,25 +19,27 @@ main(int argc, char *argv[])
 	char path[] = TEMPLATE;
 	const char *actual_path = NULL;
 	struct btree *tree = NULL;
+	int ret = FAILURE;
 
 	if (mkstemp(path) == -1) {
-		exit(1);
+		return FAILURE;
 	}
 
-	DPRINTF("db path: %s", path);
+	fprintf(stderr, "db path: %s", path);
 
 	if ((tree = btree_open(path, FLAGS, MODE)) == NULL) {
-		goto fail;
+		ret = FAILURE;
+		goto out;
 	}
 
 	actual_path = btree_get_path(tree);
+	if (strcmp(path, actual_path) != 0) {
+		ret = FAILURE;
+		goto out;
+	}
 
-	assert(strcmp(path, actual_path) == 0);
-
+	ret = SUCCESS;
+out:
 	btree_close(tree);
-	exit(0);
-
-fail:
-	btree_close(tree);
-	exit(1);
+	return ret;
 }
