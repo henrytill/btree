@@ -26,15 +26,11 @@ struct flex_mem {
 	unsigned char data[];
 };
 
-int
-flex_mem_new(const unsigned char *array,
-             unsigned int array_size,
-             struct flex_mem **p);
+int flex_mem_new(const unsigned char *array, unsigned int array_size,
+	struct flex_mem **p);
 
-int
-flex_mem_set(const unsigned char *array,
-             unsigned int array_size,
-             struct flex_mem **p);
+int flex_mem_set(const unsigned char *array, unsigned int array_size,
+	struct flex_mem **p);
 
 struct flex_mem_alt {
 	unsigned int size;

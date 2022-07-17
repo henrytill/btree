@@ -17,16 +17,16 @@ main(int argc, char *argv[])
 	struct btree *tree = NULL;
 	struct btree_txn *txn = NULL;
 	struct btval key = {
-	    .size = strlen(key_hello),
-	    .data = key_hello,
+		.size = strlen(key_hello),
+		.data = key_hello,
 	};
 	struct btval expected = {
-	    .size = strlen(val_world),
-	    .data = val_world,
+		.size = strlen(val_world),
+		.data = val_world,
 	};
 	struct btval actual = {
-	    .size = 0,
-	    .data = NULL,
+		.size = 0,
+		.data = NULL,
 	};
 	char path[] = TEMPLATE;
 	int ret = FAILURE;

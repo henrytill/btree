@@ -9,12 +9,11 @@
 /* Implementation */
 
 int
-flex_mem_new(const unsigned char *array,
-             unsigned int array_size,
-             struct flex_mem **p)
+flex_mem_new(const unsigned char *array, unsigned int array_size,
+	struct flex_mem **p)
 {
-	*p = malloc(sizeof(struct flex_mem) +
-	            sizeof(unsigned char) * array_size);
+	*p = malloc(
+		sizeof(struct flex_mem) + sizeof(unsigned char) * array_size);
 	if (*p == NULL) {
 		return FAILURE;
 	}
@@ -27,9 +26,8 @@ flex_mem_new(const unsigned char *array,
 }
 
 int
-flex_mem_set(const unsigned char *array,
-             unsigned int array_size,
-             struct flex_mem **p)
+flex_mem_set(const unsigned char *array, unsigned int array_size,
+	struct flex_mem **p)
 {
 	struct flex_mem *p_resized = NULL;
 
